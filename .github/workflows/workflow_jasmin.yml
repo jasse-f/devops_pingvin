@@ -55,6 +55,9 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v4
         
+      - name: Retrieve API-key
+        run: echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+        
       - name: Create dockerfile
         run: |
           echo -e "FROM python:3.9\nCOPY . /app/\nWORKDIR /app\nRUN pip install -r requirements.txt\nEXPOSE 8080\nCMD ["python", "app.py"]" > Dockerfile
