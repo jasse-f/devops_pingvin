@@ -55,15 +55,12 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v4
         
-      - name: Retrieve API-key
-        run: echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
-        
       - name: Create dockerfile
         run: |
           echo -e "FROM python:3.9\nCOPY . /app/\nWORKDIR /app\nRUN pip install -r requirements.txt\nEXPOSE 8080\nCMD ["python", "app.py"]" > Dockerfile
   
       - name: Build the Docker image
-        run: docker build -t "$IMAGE_NAME" .
+        run: docker build -e API_KEY="${{ secrets.API_KEY }}" -p 8080:8080 "$IMAGE_NAME" .
     
       - name: Log in to Docker Hub
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
