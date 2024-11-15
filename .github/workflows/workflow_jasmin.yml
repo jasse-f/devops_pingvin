@@ -60,7 +60,7 @@ jobs:
           echo -e "FROM python:3.9\nCOPY . /app/\nWORKDIR /app\nRUN pip install -r requirements.txt\nARG API_KEY\nENV API_KEY=$API_KEY\nEXPOSE 8080\nCMD ["python", "app.py"]" > Dockerfile
   
       - name: Build the Docker image
-        run: docker build --build-arg API_KEY="${{ secrets.API_KEY }}" -t "$IMAGE_NAME" .
+        run: docker build --build-arg API_KEY="$API_KEY" -t "$IMAGE_NAME" .
     
       - name: Log in to Docker Hub
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
