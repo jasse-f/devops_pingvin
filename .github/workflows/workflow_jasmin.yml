@@ -36,7 +36,7 @@ jobs:
           python -m pytest > test_log.log
           
       - name: Create eventual failed test log
-        if: ${{ failure() and github.event.inputs.log_errors == 'true'}}
+        if: ${{ failure() && github.event.inputs.log_errors == 'true'}}
         uses: actions/upload-artifact@v3
         with:
           name: error-log
