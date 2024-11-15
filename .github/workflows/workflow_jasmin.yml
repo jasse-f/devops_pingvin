@@ -9,6 +9,12 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      log_errors:
+        description: "Log errors if tests fail"
+        required: true
+        default: "false"
+        type: boolean
 
 jobs:     
   test:
@@ -26,7 +32,15 @@ jobs:
         run: echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
   
       - name: Run tests
-        run: python -m pytest
+        run: |
+          python -m pytest > test_log.log
+          
+      - name: Create eventual failed test log
+        if: ${{ failure() and github.event.inputs.log_errors == 'true'}}
+        uses: actions/upload-artifact@v3
+        with:
+          name: error-log
+          path: test_log.log
         
         
   build-and-publish:
