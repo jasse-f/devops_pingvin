@@ -57,7 +57,7 @@ jobs:
         
       - name: Create dockerfile
         run: |
-          echo -e "FROM python:3.9\nCOPY . /app/\nWORKDIR /app\nRUN pip install -r requirements.txt\nCMD ['python', 'app.py']" > Dockerfile
+          echo -e "FROM python:3.9\nCOPY . /app/\nWORKDIR /app\nRUN pip install -r requirements.txt\nCMD ["python", "app.py"]" > Dockerfile
   
       - name: Build the Docker image
         run: docker build -t "$IMAGE_NAME" .
