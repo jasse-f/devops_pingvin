@@ -3,7 +3,7 @@ name: Docker Image CI
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_JASMIN_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_JASMIN_PASSWORD }}
-  IMAGE_NAME: "${{ secrets.DOCKER_JASMIN_USERNAME }}/OWMapp:latest"
+  IMAGE_NAME: "${{ secrets.DOCKER_JASMIN_USERNAME }}/pingvin_app:latest"
 
 on:
   push:
