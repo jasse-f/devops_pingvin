@@ -1,8 +1,6 @@
 name: Docker Image CI
 
 env:
-  DOCKER_USERNAME: ${{ secrets.DOCKER_JASMIN_USERNAME }}
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_JASMIN_PASSWORD }}
   IMAGE_NAME: "${{ secrets.DOCKER_JASMIN_USERNAME }}/pingvin_app:latest"
 
 on:
@@ -30,11 +28,16 @@ jobs:
       - name: Run tests
         run: python -m pytest
         
-  build:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-    
+        
+  build-and-publish:
+      runs-on: ubuntu-latest
+      needs: test
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_JASMIN_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_JASMIN_PASSWORD }}
+        IMAGE_NAME: "${{ secrets.DOCKER_JASMIN_USERNAME }}/pingvin_app:latest"
+            
+      steps:
       - name: checkout repo
         uses: actions/checkout@v4
         
@@ -44,11 +47,6 @@ jobs:
   
       - name: Build the Docker image
         run: docker build -t "$IMAGE_NAME" .
-        
-  publish:
-      runs-on: ubuntu-latest
-      needs: build
-      steps:
     
       - name: Log in to Docker Hub
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
