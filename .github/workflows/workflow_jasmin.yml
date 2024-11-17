@@ -1,8 +1,5 @@
 name: Docker Image CI
 
-env:
-  IMAGE_NAME: "${{ secrets.DOCKER_JASMIN_USERNAME }}/pingvin_app:latest"
-
 on:
   push:
     branches: [ "main" ]
